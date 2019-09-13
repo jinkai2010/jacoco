@@ -33,6 +33,8 @@ import org.jacoco.report.IReportVisitor;
 import org.jacoco.report.ISourceFileLocator;
 import org.jacoco.report.MultiReportVisitor;
 import org.jacoco.report.MultiSourceFileLocator;
+import org.jacoco.report.common.DBTools;
+import org.jacoco.report.common.Properties;
 import org.jacoco.report.csv.CSVFormatter;
 import org.jacoco.report.html.HTMLFormatter;
 import org.jacoco.report.xml.XMLFormatter;
@@ -75,6 +77,12 @@ public class Report extends Command {
 	public String description() {
 		return "Generate reports in different formats by reading exec and Java class files.";
 	}
+
+	@Option(name = "--projectid", usage = "项目id", metaVar = "<n>")
+	int projectId;
+
+	@Option(name = "--commitid", usage = "项目id", metaVar = "<commitid>")
+	String commitId;
 
 	@Override
 	public int execute(final PrintWriter out, final PrintWriter err)
@@ -153,6 +161,20 @@ public class Report extends Command {
 		}
 
 		if (html != null) {
+			if(commitId == null || commitId.equals("")){
+				try {
+					throw new Exception("入参错误，请传入commitid");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				System.exit(-1);
+				return null;
+			}
+			Properties.commitID = commitId;
+			Properties.projectId = projectId;
+			System.out.println("初始化前");
+			DBTools.initCon();
+			System.out.println("初始化后");
 			final HTMLFormatter formatter = new HTMLFormatter();
 			visitors.add(
 					formatter.createVisitor(new FileMultiReportOutput(html)));

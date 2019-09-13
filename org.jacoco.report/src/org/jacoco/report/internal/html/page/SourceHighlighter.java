@@ -14,11 +14,15 @@ package org.jacoco.report.internal.html.page;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Date;
 import java.util.Locale;
 
 import org.jacoco.core.analysis.ICounter;
 import org.jacoco.core.analysis.ILine;
 import org.jacoco.core.analysis.ISourceNode;
+import org.jacoco.core.internal.analysis.SourceFileCoverageImpl;
+import org.jacoco.report.common.DBTools;
+import org.jacoco.report.common.Properties;
 import org.jacoco.report.internal.html.HTMLElement;
 import org.jacoco.report.internal.html.resources.Styles;
 
@@ -73,6 +77,13 @@ final class SourceHighlighter {
 		String line;
 		int nr = 0;
 		while ((line = lineBuffer.readLine()) != null) {
+			String packageName = ((SourceFileCoverageImpl) source).getPackageName();
+			String className = source.getName();
+			String sourceCode = line;
+			int status = source.getLine(nr).getStatus();
+			String sql = "insert into class_coverage (project_id,package_name,class_name,line,code,line_status,commit_id,path,time_stamp) values(?,?,?,?,?,?,?,?,?)";
+			Object[] params = {Properties.projectId,packageName,className,nr,sourceCode,status, Properties.commitID,packageName+"/"+className, new Date()};
+			DBTools.insertDB(sql,params);
 			nr++;
 			renderCodeLine(pre, line, source.getLine(nr), nr);
 		}
