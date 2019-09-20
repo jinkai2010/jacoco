@@ -83,6 +83,7 @@ final class SourceHighlighter {
 			int status = source.getLine(nr).getStatus();
 			String sql = "insert into class_coverage (project_id,package_name,class_name,line,code,line_status,commit_id,path,time_stamp) values(?,?,?,?,?,?,?,?,?)";
 			Object[] params = {Properties.projectId,packageName,className,nr,sourceCode,status, Properties.commitID,packageName+"/"+className, new Date()};
+//			System.out.println(sourceCode);
 			DBTools.insertDB(sql,params);
 			nr++;
 			renderCodeLine(pre, line, source.getLine(nr), nr);

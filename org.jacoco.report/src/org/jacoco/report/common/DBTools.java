@@ -26,8 +26,8 @@ public class DBTools {
         System.out.println("DBTools static执行了。。。。。。。。。。。。。。。。");
         try {
             Class.forName("com.mysql.jdbc.Driver");
-//            conn = DriverManager.getConnection("jdbc:mysql://10.92.3.44:3306/wfc_qa_test?useUnicode=true&amp;characterEncoding=UTF-8", "wfc_qa_test", "#9aVAzdJ");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/wfc_qa_test?useUnicode=true&amp;characterEncoding=UTF-8", "root", "123456");
+            //conn = DriverManager.getConnection("jdbc:mysql://10.92.3.44:3306/wfc_qa_test?useUnicode=true&amp;characterEncoding=UTF-8", "wfc_qa_test", "#9aVAzdJ");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/wfc_qa_test?useUnicode=true&characterEncoding=utf8", "root", "123456");
 
         }catch (Exception e){
             e.printStackTrace();
@@ -47,7 +47,7 @@ public class DBTools {
         try {
             Class.forName("com.mysql.jdbc.Driver");
 //            conn = DriverManager.getConnection("jdbc:mysql://10.92.3.44:3306/wfc_qa_test?useUnicode=true&amp;characterEncoding=UTF-8", "wfc_qa_test", "#9aVAzdJ");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/wfc_qa_test?useUnicode=true&amp;characterEncoding=UTF-8", "root", "123456");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/wfc_qa_test?useUnicode=true&characterEncoding=utf8", "root", "123456");
             if(conn !=null){
                 System.out.println("初始化成功");
             }
